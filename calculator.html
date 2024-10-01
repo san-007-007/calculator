@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="calculator.css">
+    <title>calculator</title>
+  </head>
+  <body>
+    <div class="calculator">
+      <div style="text-align: center;color: white;"><p style="padding-top: 5px;">CALCULATOR</p></div>
+      <div style="display: grid;grid-template-columns: repeat(4,30px);height: 20px;">
+        <input type="radio" class="Radio" id="rad" onclick="radio_rad()" style="height: 20px;margin: 0;"checked="true"><p style="color: white;font-size: 12px;margin: 0;padding: 5px;">Rad</p>
+        <input type="radio" class="Radio" id="deg" onclick="radio_deg()" style="height: 20px;margin: 0;"><p style="color: white;font-size: 12px;margin: 0;padding: 5px;">Deg</p>
+      </div>
+      <input id="display" value="0">
+      <div id="keys">
+          <button onclick="appendtoDisplay('1')">1</button>
+          <button onclick="appendtoDisplay('2')">2</button>
+          <button onclick="appendtoDisplay('3')">3</button>
+          <button onclick="appendtoDisplay('+')" class="button-operators">+</button>
+          <button onclick="appendtoDisplay('-')" class="button-operators">-</button>
+          <button onclick="appendtoDisplay('*')" class="button-operators">x</button>
+          <button onclick="appendtoDisplay('4')">4</button>
+          <button onclick="appendtoDisplay('5')">5</button>
+          <button onclick="appendtoDisplay('6')">6</button>
+          <button onclick="appendtoDisplay('/')" class="button-operators">/</button>
+          <button onclick="appendtoDisplay('^')" class="button-operators">^</button>
+          <button onclick="sq()" class="button-operators">x<sup>2</sup></button>
+          <button onclick="appendtoDisplay('7')">7</button>
+          <button onclick="appendtoDisplay('8')">8</button>
+          <button onclick="appendtoDisplay('9')">9</button>
+          <button onclick="exp()" class="button-operators">e<sup>x</sup></button>
+          <button onclick="ln()" class="button-operators">ln</button>
+          <button onclick="log()" class="button-operators">log</button>
+          <button onclick="appendtoDisplay(Math.PI)">π</button>
+          <button onclick="appendtoDisplay('0')">0</button>
+          <button onclick="appendtoDisplay(Math.E)">e</button>
+          <button onclick="sin()" class="button-operators">sin</button>
+          <button onclick="cos()" class="button-operators">cos</button>
+          <button onclick="tan()" class="button-operators">tan</button>
+          <button onclick="clearScrn()" class="button-operators">⌫</button>
+          <button onclick="sqrt()" class="button-operators">√</button>
+          <button onclick="calculate()" class="button-operators" id="result">=</button>
+          <button onclick="asin()" class="button-operators">sin<sup>-1</sup></button>
+          <button onclick="acos()" class="button-operators">cos<sup>-1</sup></button>
+          <button onclick="atan()" class="button-operators">tan<sup>-1</sup></button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  var rad=document.getElementById("rad");
+  var deg=document.getElementById("deg")
+  var input=document.getElementsByTagName("button");
+  var display=document.getElementById("display");
+  display.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("result").click();
+  }
+  });
+  function radio_rad(){
+   rad.checked=true;deg.checked=false;
+  }
+  function radio_deg(){
+    rad.checked=false;deg.checked=true;
+  }
+  function appendtoDisplay(input){
+    if(display.value==null ||display.value=='0'){
+      display.value=input;}
+    else{
+      display.value+=input
+    }
+  }
+  function clearScrn(){
+    display.value="0";
+  }
+  function calculate(){
+    pow();
+    try {
+      display.value=eval(display.value);
+    } catch (error) {
+      display.value="ERROR!!"
+    }
+  }
+  function sin(){
+    calculate();
+    if(deg.checked){
+      display.value=Math.sin(display.value*(Math.PI/180));
+    }else{
+      display.value=Math.sin(display.value);
+    }
+  }
+  function cos(){
+    calculate();
+    if(deg.checked){
+      display.value=Math.cos(display.value*(Math.PI/180));
+    }else{
+      display.value=Math.cos(display.value);
+    }
+  }
+  function tan(){
+    calculate();
+    if(deg.checked){
+      display.value=Math.tan(display.value*(Math.PI/180));
+    }else{
+      display.value=Math.tan(display.value);
+    }
+  }
+  function sqrt(){
+    calculate();
+    display.value=Math.sqrt(display.value);
+  }
+  function log(){
+    calculate();
+    display.value=Math.log10(display.value);
+  }
+  function ln(){
+    calculate();
+    display.value=Math.log(display.value)
+  }
+  function sq(){
+    calculate();
+    display.value=display.value**2;
+  }
+  function exp(){
+    calculate();
+    display.value=Math.exp(display.value);
+  }
+  function pow(){
+    display.value=display.value.replaceAll("^","**");
+  }
+  function asin(){
+    if(deg.checked){
+      display.value=Math.asin(display.value)*(180/Math.PI);
+    }else{
+      display.value=Math.asin(display.value);
+    }
+  }
+  function acos(){
+    if(deg.checked){
+      display.value=Math.acos(display.value)*(180/Math.PI);
+    }else{
+      display.value=Math.acos(display.value);
+    }
+  }
+  function atan(){
+    if(deg.checked){
+      display.value=Math.atan(display.value)*(180/Math.PI);
+    }else{
+      display.value=Math.atan(display.value);
+    }
+  }
+</script>
