@@ -13,27 +13,27 @@
       </div>
       <input id="display" value="0">
       <div id="keys">
-          <button onclick="appendtoDisplay('1')">1</button>
-          <button onclick="appendtoDisplay('2')">2</button>
-          <button onclick="appendtoDisplay('3')">3</button>
-          <button onclick="appendtoDisplay('+')" class="button-operators">+</button>
-          <button onclick="appendtoDisplay('-')" class="button-operators">-</button>
-          <button onclick="appendtoDisplay('*')" class="button-operators">x</button>
-          <button onclick="appendtoDisplay('4')">4</button>
-          <button onclick="appendtoDisplay('5')">5</button>
-          <button onclick="appendtoDisplay('6')">6</button>
-          <button onclick="appendtoDisplay('/')" class="button-operators">/</button>
-          <button onclick="appendtoDisplay('^')" class="button-operators">^</button>
+          <button onclick="appendConst('1')">1</button>
+          <button onclick="appendConst('2')">2</button>
+          <button onclick="appendConst('3')">3</button>
+          <button onclick="appendOp('+')" class="button-operators">+</button>
+          <button onclick="appendOp('-')" class="button-operators">-</button>
+          <button onclick="appendOp('*')" class="button-operators">x</button>
+          <button onclick="appendConst('4')">4</button>
+          <button onclick="appendConst('5')">5</button>
+          <button onclick="appendConst('6')">6</button>
+          <button onclick="appendOp('/')" class="button-operators">/</button>
+          <button onclick="appendOp('^')" class="button-operators">^</button>
           <button onclick="sq()" class="button-operators">x<sup>2</sup></button>
-          <button onclick="appendtoDisplay('7')">7</button>
-          <button onclick="appendtoDisplay('8')">8</button>
-          <button onclick="appendtoDisplay('9')">9</button>
+          <button onclick="appendConst('7')">7</button>
+          <button onclick="appendConst('8')">8</button>
+          <button onclick="appendConst('9')">9</button>
           <button onclick="exp()" class="button-operators">e<sup>x</sup></button>
           <button onclick="ln()" class="button-operators">ln</button>
           <button onclick="log()" class="button-operators">log</button>
-          <button onclick="appendtoDisplay(Math.PI)">π</button>
-          <button onclick="appendtoDisplay('0')">0</button>
-          <button onclick="appendtoDisplay(Math.E)">e</button>
+          <button onclick="appendSpl('π')">π</button>
+          <button onclick="appendConst('0')">0</button>
+          <button onclick="appendSpl('e')">e</button>
           <button onclick="sin()" class="button-operators">sin</button>
           <button onclick="cos()" class="button-operators">cos</button>
           <button onclick="tan()" class="button-operators">tan</button>
@@ -64,20 +64,44 @@
   function radio_deg(){
     rad.checked=false;deg.checked=true;
   }
-  function appendtoDisplay(input){
+  function appendConst(input){
     if(display.value==null ||display.value=='0'){
       display.value=input;}
     else{
-      display.value+=input
+      var l=display.value.charAt(display.value.length-1);
+      if(l=="π" || l=="e"){
+        display.value+="*"+input;
+      }else{
+        display.value+=input
+      }
     }
   }
+  function appendSpl(input){
+     if(display.value==null ||display.value=='0'){
+      display.value=input;}
+    else{
+      var l=display.value.charAt(display.value.length-1);
+      if(l=="π" || l=="e"||(!isNaN(l)&&!isNaN(parseFloat(l)))){
+        display.value+="*"+input;
+      }else{
+        display.value+=input
+      }
+    }
+  }
+  function appendOp(input){
+    if(display.value==null || display.value=="0"){}
+    else{
+      display.value+=input;
+    }
+  }
+
   function clearScrn(){
     display.value="0";
   }
   function calculate(){
     pow();
     try {
-      display.value=eval(display.value);
+      display.value=eval(display.value.trim());
     } catch (error) {
       display.value="ERROR!!"
     }
@@ -128,6 +152,8 @@
   }
   function pow(){
     display.value=display.value.replaceAll("^","**");
+    display.value=display.value.replaceAll("e",Math.E);
+    display.value=display.value.replaceAll("π",Math.PI);
   }
   function asin(){
     if(deg.checked){
